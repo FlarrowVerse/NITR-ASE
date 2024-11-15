@@ -1,0 +1,780 @@
+{
+	"info": {
+		"_postman_id": "c3e3c853-f8bd-4573-b771-bf7143071581",
+		"name": "Road Repair and Tracking System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10265210"
+	},
+	"item": [
+		{
+			"name": "Clerk",
+			"item": [
+				{
+					"name": "Register Complaint",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"complaintDate\": \"2024-11-15\",\r\n    \"roadId\": 3,\r\n    \"repairType\": \"Pot-hole covering\",\r\n    \"description\": \"Pothole in middle of road\",\r\n    \"residentName\": \"Resident 7\",\r\n    \"residentContact\": \"0123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}{{complaintPath}}/add",
+							"host": [
+								"{{baseURL}}{{complaintPath}}"
+							],
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Complaint List By Area",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>ID</th>\r",
+									"        <th>Complaint Date</th>\r",
+									"        <th>Road Name</th>\r",
+									"        <th>Locality Type</th>\r",
+									"        <th>Area Name</th>\r",
+									"        <th>Repair Type</th>\r",
+									"        <th>Description</th>\r",
+									"        <th>Resident Name</th>\r",
+									"        <th>Resident Contact</th>\r",
+									"        <th>Status</th>\r",
+									"        <th>Severity</th>\r",
+									"        <th>Priority</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response}}\r",
+									"        <tr>\r",
+									"            <td>{{id}}</td>\r",
+									"            <td>{{complaintDate}}</td>\r",
+									"            <td>{{road.roadName}}</td>\r",
+									"            <td>{{road.localityType}}</td>\r",
+									"            <td>{{road.area.areaName}}</td>\r",
+									"            <td>{{repairType}}</td>\r",
+									"            <td>{{description}}</td>\r",
+									"            <td>{{residentName}}</td>\r",
+									"            <td>{{residentContact}}</td>\r",
+									"            <td>{{status}}</td>\r",
+									"            <td>{{severity}}</td>\r",
+									"            <td>{{priority}}</td>\r",
+									"        </tr>\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return {response: pm.response.json()}\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{complaintPath}}/complaintList/1",
+							"host": [
+								"{{baseURL}}{{complaintPath}}"
+							],
+							"path": [
+								"complaintList",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Complaints",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{complaintPath}}/complaintList",
+							"host": [
+								"{{baseURL}}{{complaintPath}}"
+							],
+							"path": [
+								"complaintList"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{authToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Supervisor",
+			"item": [
+				{
+					"name": "Review a Request",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"Ready\",\r\n    \"severity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}{{complaintPath}}/update/{{complaintId}}",
+							"host": [
+								"{{baseURL}}{{complaintPath}}"
+							],
+							"path": [
+								"update",
+								"{{complaintId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Estimate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"complaintId\": \"730c83b3-1c19-46c1-9ccb-b8160d447146\",\r\n  \"resources\": [\r\n    {\r\n      \"resourceId\": \"3a4b2125-e36e-42e7-b074-8c0912e5d943\",\r\n      \"quantity\": 5\r\n    },\r\n    {\r\n      \"resourceId\": \"25395980-d73a-4049-b617-c588c3be28d8   \",\r\n      \"quantity\": 2\r\n    }\r\n  ],\r\n  \"materials\": [\r\n    {\r\n      \"materialId\": \"054f6ac2-ce56-4586-b200-e416a4144b04\",\r\n      \"quantity\": 20\r\n    },\r\n    {\r\n      \"materialId\": \"d686cf10-d0cf-4847-bd61-98c2171856b6\",\r\n      \"quantity\": 15\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}{{estimatePath}}/batch",
+							"host": [
+								"{{baseURL}}{{estimatePath}}"
+							],
+							"path": [
+								"batch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a schedule By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{schedulePath}}/complaint/{{complaintId}}",
+							"host": [
+								"{{baseURL}}{{schedulePath}}"
+							],
+							"path": [
+								"complaint",
+								"{{complaintId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Schedule",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"Ready\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}{{schedulePath}}/update/{{scheduleId}}",
+							"host": [
+								"{{baseURL}}{{schedulePath}}"
+							],
+							"path": [
+								"update",
+								"{{scheduleId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{authToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "City Administrator",
+			"item": [
+				{
+					"name": "Resources",
+					"item": [
+						{
+							"name": "View All Resources",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{resourcesPath}}",
+									"host": [
+										"{{baseURL}}{{resourcesPath}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View Resource By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{resourcesPath}}/{{resourceId}}",
+									"host": [
+										"{{baseURL}}{{resourcesPath}}"
+									],
+									"path": [
+										"{{resourceId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add New Resource",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response body is JSON\", function () {\r",
+											"    pm.response.to.have.jsonBody();\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains 'id' property and set to environment variable\", function () {\r",
+											"    // Parse the JSON response\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    // Check if the 'id' property exists\r",
+											"    pm.expect(jsonData).to.have.property('id');\r",
+											"\r",
+											"    // Set the 'id' property to an environment variable\r",
+											"    pm.environment.set('resourceId', jsonData.id);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"03422fec-65df-48cc-9376-92db9297fe0e\",\r\n    \"name\": \"Pneumatic Tyre Roller\",\r\n    \"count\": 3,\r\n    \"type\": \"Machine\",\r\n    \"cost\": 2200000.0,\r\n    \"available\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}{{resourcesPath}}",
+									"host": [
+										"{{baseURL}}{{resourcesPath}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Resource By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{resourcesPath}}/delete/{{resourceId}}",
+									"host": [
+										"{{baseURL}}{{resourcesPath}}"
+									],
+									"path": [
+										"delete",
+										"{{resourceId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Resource By Id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"count\": 5,\r\n    \"cost\": 2200000.0,\r\n    \"available\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}{{resourcesPath}}/update/{{resourceId}}",
+									"host": [
+										"{{baseURL}}{{resourcesPath}}"
+									],
+									"path": [
+										"update",
+										"{{resourceId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Materials",
+					"item": [
+						{
+							"name": "View All Materials",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{materialsPath}}",
+									"host": [
+										"{{baseURL}}{{materialsPath}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View Material By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{materialsPath}}/{{materialId}}",
+									"host": [
+										"{{baseURL}}{{materialsPath}}"
+									],
+									"path": [
+										"{{materialId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add New Material",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response body is JSON\", function () {\r",
+											"    pm.response.to.have.jsonBody();\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains 'id' property and set to environment variable\", function () {\r",
+											"    // Parse the JSON response\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    // Check if the 'id' property exists\r",
+											"    pm.expect(jsonData).to.have.property('id');\r",
+											"\r",
+											"    // Set the 'id' property to an environment variable\r",
+											"    pm.environment.set('materialId', jsonData.id);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\": \"Steel Rebar\",\r\n    \"description\": \"Reinforcing bars for concrete structures.\",\r\n    \"inventory\": 50,\r\n    \"cost\": 50000.0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}{{materialsPath}}",
+									"host": [
+										"{{baseURL}}{{materialsPath}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Resource By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}{{materialsPath}}/delete/{{materialId}}",
+									"host": [
+										"{{baseURL}}{{materialsPath}}"
+									],
+									"path": [
+										"delete",
+										"{{materialId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Material By Id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inventory\": 60,\r\n    \"cost\": 40000.0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}{{materialsPath}}/update/{{materialId}}",
+									"host": [
+										"{{baseURL}}{{materialsPath}}"
+									],
+									"path": [
+										"update",
+										"{{materialId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{authToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Mayor",
+			"item": [
+				{
+					"name": "Repairs In a Period",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{statisticsPath}}/repairs?startDate=2024-01-01&endDate=2024-11-30",
+							"host": [
+								"{{baseURL}}{{statisticsPath}}"
+							],
+							"path": [
+								"repairs"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-11-30"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Outstanding Repairs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{statisticsPath}}/outstanding-repairs",
+							"host": [
+								"{{baseURL}}{{statisticsPath}}"
+							],
+							"path": [
+								"outstanding-repairs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resource Utilizations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{statisticsPath}}/utilization?startDate=2024-01-01&endDate=2024-11-30",
+							"host": [
+								"{{baseURL}}{{statisticsPath}}"
+							],
+							"path": [
+								"utilization"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-11-30"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{authToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response body is JSON\", function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains 'token' property\", function () {\r",
+							"    // Parse the JSON response\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    // Check if the 'token' property exists\r",
+							"    pm.expect(jsonData).to.have.property('token');\r",
+							"\r",
+							"    // Set the 'token' property to an environment variable\r",
+							"    pm.environment.set('authToken', jsonData.token);\r",
+							"    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"sarah.johnson\",\r\n    \"password\": \"Password1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}{{authPath}}",
+					"host": [
+						"{{baseURL}}{{authPath}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

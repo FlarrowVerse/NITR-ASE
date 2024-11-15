@@ -10,22 +10,30 @@ import com.ase.rrts.model.EstimateRequestDTO;
 import com.ase.rrts.model.ResponseMessage;
 import com.ase.rrts.service.EstimateService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/estimates")
+@Tag(name = "Estimates", description = "Endpoints related to estimates")
 public class EstimateController {
 
     @Autowired
     private EstimateService estimateService;
 
+    @PreAuthorize("hasAuthority('SUP')")
     @GetMapping
+    @Operation(summary = "Get all estimates", description = "Retrieve a list of all estimates")
     public List<Estimate> getAllEstimates() {
         return estimateService.getAllEstimates();
     }
 
+    @PreAuthorize("hasAuthority('SUP')")
     @GetMapping("/{id}")
+    @Operation(summary = "Single estimate", description = "Retrieve a single estimate")
     public ResponseEntity<Estimate> getEstimateById(@PathVariable UUID id) {
         return estimateService.getEstimateById(id)
                 .map(ResponseEntity::ok)
@@ -34,6 +42,7 @@ public class EstimateController {
 
     @PreAuthorize("hasAuthority('SUP')")
     @PostMapping("/batch")
+    @Operation(summary = "Batch Submit", description = "Submits all estimates for a complaint")
     public ResponseEntity<ResponseMessage> createBatchEstimates(@RequestBody EstimateRequestDTO estimateRequestDTO) {
         try {
             estimateService.createBatchEstimates(estimateRequestDTO);
@@ -43,12 +52,9 @@ public class EstimateController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Estimate> updateEstimate(@PathVariable UUID id, @RequestBody Estimate estimate) {
-        return ResponseEntity.ok(estimateService.updateEstimate(id, estimate));
-    }
-
+    @PreAuthorize("hasAuthority('SUP')")
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete Estimate", description = "Deletes an estimate based on UUID")
     public ResponseEntity<Void> deleteEstimate(@PathVariable UUID id) {
         estimateService.deleteEstimate(id);
         return ResponseEntity.noContent().build();

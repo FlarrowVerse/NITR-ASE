@@ -7,11 +7,15 @@ import org.springframework.web.bind.annotation.*;
 import com.ase.rrts.model.Users;
 import com.ase.rrts.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User", description = "Endpoints related to users")
 public class UserController {
 
     @Autowired
@@ -23,26 +27,11 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get a single user details", description = "Retrieve a single user")
     public ResponseEntity<Users> getUserById(@PathVariable UUID id) {
         return userService.getUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<Users> createUser(@RequestBody Users user) {
-        return ResponseEntity.ok(userService.createUser(user));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Users> updateUser(@PathVariable UUID id, @RequestBody Users user) {
-        return ResponseEntity.ok(userService.updateUser(id, user));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
     }
 }
 

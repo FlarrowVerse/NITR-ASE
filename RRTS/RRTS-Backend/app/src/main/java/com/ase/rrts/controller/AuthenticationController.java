@@ -4,6 +4,10 @@ import com.ase.rrts.model.AuthRequest;
 import com.ase.rrts.model.AuthResponse;
 import com.ase.rrts.security.CustomUserDetailsService;
 import com.ase.rrts.util.JwtUtil;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Authentication", description = "Endpoints related to authentication")
 public class AuthenticationController {
 
     @Autowired
@@ -25,6 +30,7 @@ public class AuthenticationController {
     private JwtUtil jwtUtil; // Utility class for generating and validating JWTs
 
     @PostMapping("/login")
+    @Operation(summary = "Login", description = "Username/Password based login  system")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         try {
             // Authenticate the user
