@@ -1,0 +1,20 @@
+Asphalt,"A black, sticky material used for paving roads.",500 tons,"?4,000 per ton"
+Concrete,"A strong, durable material for road surfaces.",200 tons,"?6,000 per ton"
+Bitumen,A viscous substance for road surfacing.,300 barrels (200L),"?3,000 per barrel"
+Aggregate,Crushed stones for mixing with asphalt/concrete.,800 tons,"?1,200 per ton"
+Gravel,Coarse stones used as a base layer.,600 tons,?800 per ton
+Sand,Fine aggregate used in concrete/asphalt mixes.,700 tons,?500 per ton
+Cement,A binding agent in concrete for road repairs.,150 tons,"?7,000 per ton"
+Steel Rebar,Reinforcing bars for concrete structures.,50 tons,"?50,000 per ton"
+Tack Coat,Bituminous liquid applied to road surfaces.,100 barrels (200L),"?2,500 per barrel"
+Cold Patch Asphalt,Pre-mixed asphalt for quick pothole repairs.,100 bags (50 kg),"?1,000 per bag"
+Emulsion,Water-based asphalt for surface treatments.,250 gallons (3.78L),?200 per gallon
+Geotextile Fabric,Permeable fabric for road foundation stability.,100 rolls (100m²),"?10,000 per roll"
+Road Marking Paint,Durable paint for road markings.,200 liters,?150 per liter
+Road Signs,Standard signs for safety and navigation.,50 units,"?2,000 per unit"
+Traffic Cones,Cones used for traffic control during repairs.,200 units,?300 per unit
+Water,Used in concrete and asphalt mixing.,"10,000 liters",?0.50 per liter
+Sealant,Material to fill and seal cracks.,300 liters,?250 per liter
+Rubberized Asphalt,Asphalt mixed with rubber for durability.,100 tons,"?5,000 per ton"
+Polymer Additives,Chemicals to improve asphalt performance.,50 liters,"?1,500 per liter"
+Crushed Glass,Recycled glass used as an aggregate substitute.,400 tons,"?2,000 per ton"

@@ -1,0 +1,16 @@
+/* Dropping tables */
+DROP TABLE IF EXISTS Access_Logs;
+DROP TABLE IF EXISTS Estimate;
+DROP TABLE IF EXISTS Schedules;
+DROP TABLE IF EXISTS Materials;
+DROP TABLE IF EXISTS Resources;
+DROP TABLE IF EXISTS Complaints;
+DROP TABLE IF EXISTS Roads;
+DROP TABLE IF EXISTS Assignment;
+DROP TABLE IF EXISTS Areas;
+DROP TABLE IF EXISTS Users;
+
+/* Dropping sequences */
+DROP SEQUENCE IF EXISTS Areas_id_seq;
+DROP SEQUENCE IF EXISTS Roads_id_seq;
+DROP SEQUENCE IF EXISTS Access_Logs_log_id_seq;
