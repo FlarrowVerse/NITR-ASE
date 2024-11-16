@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @Tag(name = "Authentication", description = "Endpoints related to authentication")
 public class AuthenticationController {
 
@@ -44,7 +45,12 @@ public class AuthenticationController {
             // Generate a JWT token
             String token = jwtUtil.generateToken(userDetails);
 
-            return ResponseEntity.ok(new AuthResponse(token));
+            ResponseCookie cookie = ResponseCookie.from("token", token)
+            .httpOnly(true).path("/").build();
+
+            return ResponseEntity.ok()
+            .header("Set-Cookie", cookie.toString())
+            .body(new AuthResponse(token));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid username or password");
         }
