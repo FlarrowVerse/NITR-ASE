@@ -4,6 +4,7 @@ import { NavbarComponent } from "../../shared/components/navbar/navbar.component
 import { AuthService } from '../../core/services/auth.service';
 import { LoginRequest } from '../../shared/models/login-request.model';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent {
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private cookieService: CookieService) {}
 
   handleLogin(): void {
     const loginRequest: LoginRequest = {
@@ -30,7 +31,7 @@ export class LoginComponent {
       (message: string) => {
         if (message.includes('Success')) {
           // Successful login, now redirect based on role
-          const userRole = this.getRoleFromCookie();
+          const userRole = this.cookieService.get('role');
           if (userRole === 'CITY-ADM') {
             this.router.navigate(['/city-admin-dashboard']);
           } else if (userRole === 'CLK') {
@@ -50,19 +51,5 @@ export class LoginComponent {
       }
     );
 
-  }
-
-  // Get role from cookie
-  getRoleFromCookie() {
-    const name = "role=";
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const cookies = decodedCookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i].trim();
-      if (cookie.indexOf(name) === 0) {
-        return cookie.substring(name.length, cookie.length);
-      }
-    }
-    return "";
   }
 }

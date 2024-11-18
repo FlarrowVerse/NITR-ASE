@@ -1,21 +1,14 @@
 import { CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const router = inject(Router);
+  const cookieService = inject(CookieService);
 
   // Get the role from the cookie (or localStorage)
-  let userRole = "";
-  const name = "role=";
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const cookies = decodedCookie.split(';');
-  for (let i = 0; i < cookies.length; i++) {
-    let cookie = cookies[i].trim();
-    if (cookie.indexOf(name) === 0) {
-      userRole = cookie.substring(name.length, cookie.length);
-    }
-  }
+  const userRole = cookieService.get('role');
 
   // You can also use a service to retrieve the role if needed, for example: authService.getRole();
 

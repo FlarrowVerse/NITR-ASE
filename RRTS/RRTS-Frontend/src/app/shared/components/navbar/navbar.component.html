@@ -2,4 +2,5 @@
     <a routerLink="/" routerLinkActive="active">Home</a>
     <a routerLink="/login" routerLinkActive="active">Login</a>
     <a routerLink="/enquiry" routerLinkActive="active">Enquire about Complaint</a>
+    <a *ngIf="isAuthenticated" (click)="onLogout()" routerLinkActive="active">Logout</a>
 </nav>

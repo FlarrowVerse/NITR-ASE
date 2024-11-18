@@ -11,12 +11,33 @@
 			"item": [
 				{
 					"name": "Register Complaint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains status and message\", function() {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"status\", \"success\");\r",
+									"    pm.expect(jsonData).to.have.property(\"message\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"complaintDate\": \"2024-11-15\",\r\n    \"roadId\": 3,\r\n    \"repairType\": \"Pot-hole covering\",\r\n    \"description\": \"Pothole in middle of road\",\r\n    \"residentName\": \"Resident 7\",\r\n    \"residentContact\": \"0123456789\"\r\n}",
+							"raw": "{\r\n    \"complaintDate\": \"2024-11-15\",\r\n    \"roadId\": 3,\r\n    \"repairType\": \"Pot-hole covering\",\r\n    \"description\": \"Pothole in middle of road\",\r\n    \"residentName\": \"Resident 12\",\r\n    \"residentContact\": \"0123456789\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -42,55 +63,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var template = `\r",
-									"<style type=\"text/css\">\r",
-									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
-									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
-									"    .tftable tr {background-color:#ffffff;}\r",
-									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
-									"    .tftable tr:hover {background-color:#e0ffff;}\r",
-									"</style>\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
 									"\r",
-									"<table class=\"tftable\" border=\"1\">\r",
-									"    <tr>\r",
-									"        <th>ID</th>\r",
-									"        <th>Complaint Date</th>\r",
-									"        <th>Road Name</th>\r",
-									"        <th>Locality Type</th>\r",
-									"        <th>Area Name</th>\r",
-									"        <th>Repair Type</th>\r",
-									"        <th>Description</th>\r",
-									"        <th>Resident Name</th>\r",
-									"        <th>Resident Contact</th>\r",
-									"        <th>Status</th>\r",
-									"        <th>Severity</th>\r",
-									"        <th>Priority</th>\r",
-									"    </tr>\r",
-									"    \r",
-									"    {{#each response}}\r",
-									"        <tr>\r",
-									"            <td>{{id}}</td>\r",
-									"            <td>{{complaintDate}}</td>\r",
-									"            <td>{{road.roadName}}</td>\r",
-									"            <td>{{road.localityType}}</td>\r",
-									"            <td>{{road.area.areaName}}</td>\r",
-									"            <td>{{repairType}}</td>\r",
-									"            <td>{{description}}</td>\r",
-									"            <td>{{residentName}}</td>\r",
-									"            <td>{{residentContact}}</td>\r",
-									"            <td>{{status}}</td>\r",
-									"            <td>{{severity}}</td>\r",
-									"            <td>{{priority}}</td>\r",
-									"        </tr>\r",
-									"    {{/each}}\r",
-									"</table>\r",
-									"`;\r",
-									"\r",
-									"function constructVisualizerPayload() {\r",
-									"    return {response: pm.response.json()}\r",
-									"}\r",
-									"\r",
-									"pm.visualizer.set(template, constructVisualizerPayload());"
+									"pm.test(\"Response is an array of complaints\", function() {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\");\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -115,6 +96,26 @@
 				},
 				{
 					"name": "All Complaints",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an array of all complaints\", function() {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -169,6 +170,26 @@
 			"item": [
 				{
 					"name": "Review a Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response indicates successful update\", function() {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"status\", \"success\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -222,6 +243,27 @@
 				},
 				{
 					"name": "Get a schedule By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an object\", function() {\r",
+									"    pm.response.to.be.json;\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -240,6 +282,26 @@
 				},
 				{
 					"name": "Update Schedule",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response message indicates success\", function() {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.eql(\"success\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -307,6 +369,26 @@
 					"item": [
 						{
 							"name": "View All Resources",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function() {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is an array\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.be.an(\"array\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -343,8 +425,18 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Response body is JSON\", function () {\r",
-											"    pm.response.to.have.jsonBody();\r",
+											"pm.test(\"Status code is 200\", function() {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Created resource has all properties\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"id\");\r",
+											"    pm.expect(jsonData).to.have.property(\"name\");\r",
+											"    pm.expect(jsonData).to.have.property(\"count\");\r",
+											"    pm.expect(jsonData).to.have.property(\"type\");\r",
+											"    pm.expect(jsonData).to.have.property(\"cost\");\r",
+											"    pm.expect(jsonData).to.have.property(\"available\");\r",
 											"});\r",
 											"\r",
 											"pm.test(\"Response contains 'id' property and set to environment variable\", function () {\r",
@@ -369,7 +461,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"03422fec-65df-48cc-9376-92db9297fe0e\",\r\n    \"name\": \"Pneumatic Tyre Roller\",\r\n    \"count\": 3,\r\n    \"type\": \"Machine\",\r\n    \"cost\": 2200000.0,\r\n    \"available\": 3\r\n}",
+									"raw": "{\r\n    \"name\": \"Test Machine\",\r\n    \"count\": 1,\r\n    \"type\": \"Machine\",\r\n    \"cost\": 10,\r\n    \"available\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -387,6 +479,21 @@
 						},
 						{
 							"name": "Delete Resource By Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function() {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
 								"method": "DELETE",
 								"header": [],
@@ -405,6 +512,26 @@
 						},
 						{
 							"name": "Update Resource By Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function() {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response message is OK\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"status\", \"success\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
 								"method": "PATCH",
 								"header": [],
@@ -437,6 +564,26 @@
 					"item": [
 						{
 							"name": "View All Materials",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function() {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is an array\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.be.an(\"array\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -473,9 +620,19 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Response body is JSON\", function () {\r",
-											"    pm.response.to.have.jsonBody();\r",
+											"pm.test(\"Status code is 200\", function() {\r",
+											"    pm.response.to.have.status(200);\r",
 											"});\r",
+											"\r",
+											"pm.test(\"Created material has all properties\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"id\");\r",
+											"    pm.expect(jsonData).to.have.property(\"type\");\r",
+											"    pm.expect(jsonData).to.have.property(\"description\");\r",
+											"    pm.expect(jsonData).to.have.property(\"inventory\");\r",
+											"    pm.expect(jsonData).to.have.property(\"cost\");\r",
+											"});\r",
+											"\r",
 											"\r",
 											"pm.test(\"Response contains 'id' property and set to environment variable\", function () {\r",
 											"    // Parse the JSON response\r",
@@ -499,7 +656,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"type\": \"Steel Rebar\",\r\n    \"description\": \"Reinforcing bars for concrete structures.\",\r\n    \"inventory\": 50,\r\n    \"cost\": 50000.0\r\n}",
+									"raw": "{\r\n    \"type\": \"Test Type\",\r\n    \"description\": \"Test Raw Material\",\r\n    \"inventory\": 1,\r\n    \"cost\": 5\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -601,6 +758,26 @@
 			"item": [
 				{
 					"name": "Repairs In a Period",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an array of repair statistics\", function() {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -628,6 +805,26 @@
 				},
 				{
 					"name": "Outstanding Repairs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is an array of outstanding repairs\", function() {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -645,6 +842,27 @@
 				},
 				{
 					"name": "Resource Utilizations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains utilization percentages\", function() {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"personnelUtilizationPercentage\");\r",
+									"    pm.expect(jsonData).to.have.property(\"machineryUtilizationPercentage\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -711,8 +929,13 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Response body is JSON\", function () {\r",
-							"    pm.response.to.have.jsonBody();\r",
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains token\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"token\");\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Response contains 'token' property\", function () {\r",
@@ -738,7 +961,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"sarah.johnson\",\r\n    \"password\": \"Password1\"\r\n}",
+					"raw": "{\r\n    \"username\": \"{{mayorUser}}\",\r\n    \"password\": \"Password1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

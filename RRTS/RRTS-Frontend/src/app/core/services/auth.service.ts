@@ -6,6 +6,7 @@ import { LoginRequest } from '../../shared/models/login-request.model';
 import { of } from 'rxjs/internal/observable/of';
 import { map } from 'rxjs/internal/operators/map';
 import { catchError, Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import { catchError, Observable } from 'rxjs';
 export class AuthService {
   private baseUrl: string;
 
-  constructor(private http: HttpClient, private apiConfig: ApiConfigService, private router: Router) {
+  constructor(private http: HttpClient, private apiConfig: ApiConfigService, private router: Router, private cookieService: CookieService) {
     this.baseUrl = this.apiConfig.apiUrl;
   }
 
@@ -22,8 +23,6 @@ export class AuthService {
 
     return this.http.post<any>(loginUrl, loginRequest, { withCredentials: true }).pipe(
       map((response: any) => {
-          const token = response.token;
-          this.setRoleCookie(token);
           return 'Success';
       }), catchError(error => {
         return of('Failure' + error);
@@ -35,7 +34,18 @@ export class AuthService {
   }
 
   logout(): void {
-    this.router.navigate(['/login']);
+    const logoutUrl = `${this.baseUrl}/auth/logout`;
+    // Make an API call to the server to invalidate the token
+    this.http.get(logoutUrl).subscribe({
+      next: () => {
+        // On successful logout, remove the token from cookies and update the authenticated state
+        this.cookieService.delete('role', '/');
+        this.router.navigate(['/login']); // Navigate to the login page
+      },
+      error: (err) => {
+        console.error('Logout failed', err);
+      }
+    });
   }
 
   extractToken(token: string) {
@@ -53,20 +63,5 @@ export class AuthService {
   const payload = JSON.parse(payloadDecoded);
 
   return payload;
-  }
-
-  setRoleCookie(token:string) {
-    const payload = this.extractToken(token);
-  
-    if (payload && payload.role) {
-      // Store the role in a cookie (HttpOnly and Secure flag are set by the server)
-      // Here, we're setting it from the client side, but ideally, HttpOnly and Secure should be set by the server.
-      const role = payload.role;
-      const expires = new Date();
-      expires.setTime(expires.getTime() + (60 * 60 * 1000)); // Cookie expiry time (1 hour)
-  
-      // Setting cookie
-      document.cookie = `role=${role};expires=${expires.toUTCString()};path=/;Secure;SameSite=Strict`;
-    }
   }
 }
