@@ -2,7 +2,7 @@
 <app-navbar></app-navbar>
 <div class="login-container">
     <h2>Login</h2>
-    <form [formGroup]="loginData" (ngSubmit)="handleLogin()">
+    <form [formGroup]="loginData" (ngSubmit)="handleLogin()" class="form-group">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" id="username" placeholder="Enter username" formControlName="username"/>

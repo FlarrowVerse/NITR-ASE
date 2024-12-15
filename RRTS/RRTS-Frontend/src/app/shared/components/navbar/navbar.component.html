@@ -1,6 +1,8 @@
 <nav>
-    <a routerLink="/" routerLinkActive="active">Home</a>
-    <a routerLink="/login" routerLinkActive="active">Login</a>
+    <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Home</a>
+    <a *ngIf="!isAuthenticated" routerLink="/login" routerLinkActive="active">Login</a>
     <a routerLink="/enquiry" routerLinkActive="active">Enquire about Complaint</a>
-    <a *ngIf="isAuthenticated" (click)="onLogout()" routerLinkActive="active">Logout</a>
+    <button *ngIf="isAuthenticated" (click)="onLogout()" class="logout-button">
+        Logout
+    </button>
 </nav>

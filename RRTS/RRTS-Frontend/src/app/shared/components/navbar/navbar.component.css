@@ -1,7 +1,8 @@
 nav {
     display: flex;
+    align-items: center;
     justify-content: space-around;
-    background-color: #333;
+    background-color: #333; /* Dark background */
     padding: 1rem;
 }
 
@@ -9,8 +10,36 @@ nav a {
     color: white;
     text-decoration: none;
     font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #ffcc00; /* Highlight color */
 }
 
 nav a.active {
     font-weight: bold;
+    color: #ffcc00;
+}
+
+.logout-button {
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #ff4500; /* Distinct red-orange button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+    background-color: #ff6347; /* Lighter red on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+.logout-button:active {
+    background-color: #d73a2f; /* Darker red on click */
+    transform: scale(0.95); /* Slight shrink effect */
 }

@@ -36,7 +36,7 @@ export class AuthService {
   logout(): void {
     const logoutUrl = `${this.baseUrl}/auth/logout`;
     // Make an API call to the server to invalidate the token
-    this.http.get(logoutUrl).subscribe({
+    this.http.get(logoutUrl, { withCredentials: true }).subscribe({
       next: () => {
         // On successful logout, remove the token from cookies and update the authenticated state
         this.cookieService.delete('role', '/');

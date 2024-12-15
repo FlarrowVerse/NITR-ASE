@@ -1,0 +1,11 @@
+<input type="text" placeholder="Enter area" [(ngModel)]="area" />
+<button (click)="fetchComplaintsByArea()">Search</button>
+
+<div *ngIf="complaints.length > 0">
+    <p>Complaints in {{ area }}</p>
+    <ul>
+        <li *ngFor="let complaint of complaints">
+            {{ complaint.description }} ({{ complaint.status }})
+        </li>
+    </ul>
+</div>

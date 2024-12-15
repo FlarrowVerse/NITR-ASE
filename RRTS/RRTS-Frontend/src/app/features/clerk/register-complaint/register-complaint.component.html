@@ -1,0 +1,10 @@
+<form [formGroup]="complaintForm" (ngSubmit)="submitComplaint()">
+    <label for="description">Description</label>
+    <input id="description" formControlName="description" type="text" />
+  
+    <label for="location">Location</label>
+    <input id="location" formControlName="location" type="text" />
+  
+    <button type="submit" [disabled]="!complaintForm.valid">Submit</button>
+  </form>
+  

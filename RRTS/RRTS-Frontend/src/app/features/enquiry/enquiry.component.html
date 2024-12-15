@@ -2,11 +2,21 @@
 <app-navbar></app-navbar>
 <div class="enquiry-container">
     <h2>Enquire About Complaint</h2>
-    <form>
+    <form [formGroup]="complaintData" (ngSubmit)="handleEnquiry()"  class="form-group">
         <div class="form-group">
             <label for="complaintId">Complaint ID:</label>
-            <input type="text" id="complaintId" placeholder="Enter complaint ID" />
+            <input type="text" id="complaintId" placeholder="Enter complaint ID" formControlName="id" />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" [disabled]="!complaintData.valid">Submit</button>
     </form>
+    <div *ngIf="complaintStatus" class="complaint-status">
+        <h3>Complaint Status</h3>
+        <p><strong>ID:</strong> {{ complaintStatus.id }}</p>
+        <p><strong>Status:</strong> {{ complaintStatus.status }}</p>
+    </div>
+    
+    <!-- Error Message -->
+    <div *ngIf="!complaintStatus" class="error-message">
+        <p>NOT FOUND!</p>
+    </div>
 </div>

@@ -25,6 +25,19 @@ public class ComplaintController {
     @Autowired
     private ComplaintService complaintService;
 
+
+    @GetMapping("/status/{id}")
+    @Operation(summary = "Get complaint status", description = "Retrieve a single complaint's status only, for unauthenticated users")
+    public ResponseEntity<String> getComplaintStatusById(@PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok(complaintService.getComplaintById(id).get().getStatus());
+        } catch (Exception e) {
+            return ResponseEntity.ok("Request Not Found");
+        }
+    }
+
+
+
     @PreAuthorize("hasAuthority('CLK')")
     @GetMapping("/complaintList")
     @Operation(summary = "Get all complaints", description = "Retrieve a list of all complaints")

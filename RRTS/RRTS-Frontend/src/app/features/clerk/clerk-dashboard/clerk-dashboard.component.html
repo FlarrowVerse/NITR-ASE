@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <h3>Clerk Features</h3>
+        <ul>
+            <li><a routerLink="register-complaint" routerLinkActive="active">Register Complaint</a></li>
+            <li><a routerLink="list-all-complaints" routerLinkActive="active">List All Complaints</a></li>
+            <li><a routerLink="list-complaints-area" routerLinkActive="active">List Complaints by Area</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <router-outlet></router-outlet>
+    </main>
+</div>
